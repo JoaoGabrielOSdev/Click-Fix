@@ -1,0 +1,71 @@
+CSS Style
+
+body{
+    font-family: "Inria Sans", sans-serif;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(#E8D1C5, #EDDCD2, #FFF1E6);
+     display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container{
+    
+    background: rgb(255, 255, 255, 0.4);
+    height: 60vh;
+    width: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    border-radius: 2%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.Logo {
+    height: 20vh;
+    width: 20vh;
+    border-radius: 50%;
+    overflow: hidden;
+    transform: translateY(-25px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.Logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    
+}
+
+.btn{
+    height: 6vh;
+    width: 35vh;
+    border-radius: 10px;
+    background: linear-gradient(#D5B8A6,#B39685);
+    color: #FFFFFF;
+    font-size: 25px;
+    border:none;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-reverse{
+    background:#FFFFFF;
+    color:#B39685;
+}
+
+.Boasvindas{
+    font-size: 32px;
+    transform: translateY(-15px);
+    font-weight: 400;
+}
+
+.NomeEmpresa{
+    font-size: 30px;
+    transform: translateY(-18px);
+    font-weight: 700;
+}
