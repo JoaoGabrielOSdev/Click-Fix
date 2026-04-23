@@ -1,0 +1,55 @@
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path');
+
+// Importar rotas
+const usuarioRoutes = require('../routes/usuarioRoutes');
+const empresaRoutes = require('../routes/empresaRoutes');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middlewares
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Servir arquivos estáticos do frontend
+app.use(express.static(path.join(__dirname, '../../frontend')));
+
+// Rotas
+app.use('/api/usuario', usuarioRoutes);
+app.use('/api/empresa', empresaRoutes);
+
+// Rota principal - servir a página de boas vindas
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/Boas-vindas.html'));
+});
+
+// Rota para página de escolha de login
+app.get('/escolha-login', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/Escolha-login.html'));
+});
+app.get('/login/usuario', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/login-usuario.html'));
+});
+
+// Rota para página de login da empresa
+app.get('/login/empresa', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/login-empresa.html'));
+});
+
+// Middleware de erro
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Algo deu errado!' });
+});
+
+// Iniciar servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Acesse: http://localhost:${PORT}`);
+});
+
+module.exports = app;

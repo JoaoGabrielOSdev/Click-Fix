@@ -2,7 +2,7 @@ body{
     font-family: "Inria Sans", sans-serif;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(#E8D1C5, #EDDCD2, #FFF1E6);
+    background: linear-gradient(#1E40AF, #3B82F6, #ffffff);
      display: flex;
     align-items: center;
     flex-direction: column;
@@ -44,7 +44,7 @@ body{
     height: 6vh;
     width: 35vh;
     border-radius: 10px;
-    background: linear-gradient(#D5B8A6,#B39685);
+    background: linear-gradient(#3B82F6,#3B82F6);
     color: #FFFFFF;
     font-size: 25px;
     border:none;
