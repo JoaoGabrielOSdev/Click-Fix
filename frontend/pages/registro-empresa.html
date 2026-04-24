@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registre-se</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/reset.css">
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <main>
+        <div class="container container-register">
+            <h1>Registre-se</h1>
+            <form action="#" method="post" class="register">
+                    <!-- Nome -->
+                    <div class="input-box">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id = "nome" name = "nome" required placeholder="Digite seu nome">
+                        <img src="/assets/images/IconePerfil.svg" alt="icone de perfil">
+                    </div>
+                     
+                     <!--Email-->
+                    <div class="input-box">
+                        <label for="email">Email:</label>
+                        <input type="email" id = "email" name = "email" required placeholder="Digite seu email">
+                        <img src="/assets/images/IconeEmail.svg" alt="icone de email">
+                    </div>
+
+                     <!--Senha-->
+                    <div class="input-box">
+                        <label for="senha">Senha:</label>
+                        <input type="password" id = "senha" name = "senha" required minlength="6" placeholder="Digite uma senha">
+                        <img src="/assets/images/IconeSenha.svg" alt="icone de senha">
+                    </div>
+                    <!--Telefone-->
+                    <div class="input-box">
+                        <label for="telefone">Telefone:</label>
+                        <input type="tel" id = "telefone" name = "telefone" required  placeholder="Digite o numero de telefone">
+                        <img src="/assets/images/IconeSenha.svg" alt="icone de telefone">
+                    </div>
+
+                    <!--Endereço-->
+                    <div class="input-box">
+                         <label for="endereco">Endereço:</label>
+                        <input type="text" id = "endereco" name = "endereco" required placeholder="Digite seu Endereço">
+                        <img src="/assets/images/IconeSenha.svg" alt="icone de Endereço">
+                    </div>
+
+                        <!--Termos-->
+                    <div class="terms">
+                        <input type="checkbox" required>
+                        <span>Eu concordo com os Termos & Condições</span>
+                    </div>
+                    
+                     <!--Botão-->
+                    <button class="btn" type="submit" >Enviar</button>
+
+                    <div class="login-certificate">
+                        <p>Já possui uma conta? <a href="#">Entre</a></p>
+                    </div>
+                    
+            </form>
+        </div>
+    </main>
+</body>
+</html>
