@@ -2,6 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv').config();
+
+// Importar banco de dados
+const db = require('./database');
 
 // Importar rotas
 const usuarioRoutes = require('../routes/usuarioRoutes');
