@@ -1,4 +1,6 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const pool = require('../src/database');
 const router = express.Router();
 
 // Rota para login do usuário
@@ -30,31 +32,74 @@ router.post('/login', (req, res) => {
 });
 
 // Rota para registro de usuário
-router.post('/registro', (req, res) => {
-  const { nome, email, senha, telefone } = req.body;
+router.post('/registro', async (req, res) => {
+  const { nome, cpf, email, senha, telefone } = req.body;
 
   // Validação básica
-  if (!nome || !email || !senha) {
+  if (!nome || !cpf || !email || !senha) {
     return res.status(400).json({
       success: false,
-      message: 'Nome, email e senha são obrigatórios'
+      message: 'Nome, CPF, email e senha são obrigatórios'
     });
   }
 
-  // Aqui você implementará a lógica de registro
-  console.log('Novo registro de usuário:', { nome, email, telefone });
-
-  // Simulação de registro bem-sucedido
-  res.json({
-    success: true,
-    message: 'Usuário registrado com sucesso!',
-    user: {
-      id: 1,
-      nome: nome,
-      email: email,
-      tipo: 'usuario'
+  try {
+    // Verificar se email já existe
+    const emailCheck = await pool.query('SELECT id_usuario FROM usuarios WHERE email = $1', [email]);
+    if (emailCheck.rows.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email já cadastrado'
+      });
     }
-  });
+
+    // Verificar se CPF já existe
+    const cpfCheck = await pool.query('SELECT id_usuario FROM usuarios_comuns WHERE cpf = $1', [cpf]);
+    if (cpfCheck.rows.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'CPF já cadastrado'
+      });
+    }
+
+    // Hash da senha
+    const saltRounds = 10;
+    const hashedSenha = await bcrypt.hash(senha, saltRounds);
+
+    // Inserir na tabela usuarios
+    const userResult = await pool.query(
+      'INSERT INTO usuarios (nome, email, senha, telefone, tipo_usuario) VALUES ($1, $2, $3, $4, $5) RETURNING id_usuario',
+      [nome, email, hashedSenha, telefone || null, 'comum']
+    );
+
+    const userId = userResult.rows[0].id_usuario;
+
+    // Inserir na tabela usuarios_comuns
+    await pool.query(
+      'INSERT INTO usuarios_comuns (id_usuario, cpf) VALUES ($1, $2)',
+      [userId, cpf]
+    );
+
+    console.log('Novo registro de usuário:', { nome, email, cpf });
+
+    res.json({
+      success: true,
+      message: 'Usuário registrado com sucesso!',
+      user: {
+        id: userId,
+        nome: nome,
+        email: email,
+        tipo: 'usuario'
+      }
+    });
+
+  } catch (error) {
+    console.error('Erro no registro de usuário:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
 });
 
 // Rota para obter perfil do usuário

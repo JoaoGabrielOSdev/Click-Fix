@@ -35,6 +35,12 @@ app.get('/', (req, res) => {
 app.get('/escolha-login', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/pages/Escolha-login.html'));
 });
+
+// Rota para página de escolha de registro
+app.get('/escolha-registro', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/escolha-registro.html'));
+});
+
 app.get('/login/usuario', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/pages/login-usuario.html'));
 });
@@ -42,6 +48,16 @@ app.get('/login/usuario', (req, res) => {
 // Rota para página de login da empresa
 app.get('/login/empresa', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/pages/login-empresa.html'));
+});
+
+// Rota para página de registro do usuário
+app.get('/registro/usuario', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/registro-usuario.html'));
+});
+
+// Rota para página de registro da empresa
+app.get('/registro/empresa', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/registro-empresa.html'));
 });
 
 // Middleware de erro

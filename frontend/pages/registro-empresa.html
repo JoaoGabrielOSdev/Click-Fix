@@ -12,41 +12,43 @@
 </head>
 <body>
     <main>
+        <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
         <div class="container container-register">
             <h1>Registre-se</h1>
-            <form action="#" method="post" class="register">
+            <form id="companyRegisterForm" action="#" method="post" class="register">
                     <!-- Nome -->
                     <div class="input-box">
                         <label for="nome">Nome:</label>
-                        <input type="text" id = "nome" name = "nome" required placeholder="Digite seu nome">
-                        <img src="/assets/images/IconePerfil.svg" alt="icone de perfil">
+                        <input type="text" id="nome" name="nome" required placeholder="Digite seu nome">
                     </div>
                      
                      <!--Email-->
                     <div class="input-box">
                         <label for="email">Email:</label>
-                        <input type="email" id = "email" name = "email" required placeholder="Digite seu email">
-                        <img src="/assets/images/IconeEmail.svg" alt="icone de email">
+                        <input type="email" id="email" name="email" required placeholder="Digite seu email">
+                    </div>
+
+                     <!--CNPJ-->
+                    <div class="input-box">
+                        <label for="cnpj">CNPJ:</label>
+                        <input type="text" id="cnpj" name="cnpj" required placeholder="Digite seu CNPJ">
                     </div>
 
                      <!--Senha-->
                     <div class="input-box">
                         <label for="senha">Senha:</label>
-                        <input type="password" id = "senha" name = "senha" required minlength="6" placeholder="Digite uma senha">
-                        <img src="/assets/images/IconeSenha.svg" alt="icone de senha">
+                        <input type="password" id="senha" name="senha" required minlength="6" placeholder="Digite uma senha">
                     </div>
                     <!--Telefone-->
                     <div class="input-box">
                         <label for="telefone">Telefone:</label>
-                        <input type="tel" id = "telefone" name = "telefone" required  placeholder="Digite o numero de telefone">
-                        <img src="/assets/images/IconeSenha.svg" alt="icone de telefone">
+                        <input type="tel" id="telefone" name="telefone" required  placeholder="Digite o numero de telefone">
                     </div>
 
                     <!--Endereço-->
                     <div class="input-box">
                          <label for="endereco">Endereço:</label>
-                        <input type="text" id = "endereco" name = "endereco" required placeholder="Digite seu Endereço">
-                        <img src="/assets/images/IconeSenha.svg" alt="icone de Endereço">
+                        <input type="text" id="endereco" name="endereco" required placeholder="Digite seu Endereço">
                     </div>
 
                         <!--Termos-->
@@ -59,11 +61,48 @@
                     <button class="btn" type="submit" >Enviar</button>
 
                     <div class="login-certificate">
-                        <p>Já possui uma conta? <a href="#">Entre</a></p>
+                        <p>Já possui uma conta? <a href="/login/empresa">Entre</a></p>
                     </div>
                     
             </form>
         </div>
     </main>
+
+    <script>
+        const companyRegisterForm = document.getElementById('companyRegisterForm');
+
+        if (companyRegisterForm) {
+            companyRegisterForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const nomeEmpresa = document.getElementById('nome').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const cnpj = document.getElementById('cnpj').value.trim();
+                const senha = document.getElementById('senha').value;
+                const telefone = document.getElementById('telefone').value.trim();
+                const endereco = document.getElementById('endereco').value.trim();
+
+                try {
+                    const response = await fetch('/api/empresa/registro', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nomeEmpresa, cnpj, email, senha, telefone, endereco })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert('Empresa registrada com sucesso!');
+                        window.location.href = '/login/empresa';
+                    } else {
+                        alert(data.message || 'Erro ao registrar empresa.');
+                    }
+                } catch (error) {
+                    console.error('Erro no registro da empresa:', error);
+                    alert('Erro ao registrar empresa. Tente novamente.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
