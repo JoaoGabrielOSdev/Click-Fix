@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Principal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/principal-usuario.css">
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <button class="mobile-nav" aria-label="Menu de navegação">
+                <div></div>
+                <div></div>
+                <div></div>
+            </button>
+
+            <div class="search-bar">
+                <img src="../assets/images/search-svgrepo-com.svg" alt="">
+                <input type="text" placeholder="Pesquisar">
+            </div>
+            <a class="profile-photo" href="perfil.html">
+                <img src="" alt="Foto de perfil do usuário" id="profile-photo">
+            </a>
+        </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-menu">
+
+            <a class="profile-photo" href="perfil.html">
+                <img src="" alt="Foto de perfil do usuário" id="profile-photo">
+            </a>
+
+            <h2>Nome do Usuário</h2>
+
+            <span>Modelo do carro</span>
+            <a href="agendamento.html" class="sidebar-item">
+                Agendamento
+            </a>
+            <a href="meus-carros.html" class="sidebar-item">
+                Meus Carros
+            </a>
+            <a href="orcamento.html" class="sidebar-item">
+                Orçamento
+            </a>
+            <a href="configuracoes.html" class="sidebar-item">
+                Configurações
+            </a>
+            <a href="politica-de-privacidade.html" class="sidebar-item">
+                Política de Privacidade
+            </a>
+            <a href="termos-de-uso.html" class="sidebar-item">
+                Termos de Uso
+            </a>
+        </nav>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main>
+
+    </main>
+    
+    <script>
+        const mobileNavBtn = document.querySelector('.mobile-nav');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        mobileNavBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', toggleSidebar);
+        });
+    </script>
+</body>
+</html>
