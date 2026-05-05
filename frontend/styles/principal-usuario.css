@@ -206,3 +206,221 @@ header{
     opacity: 1;
     pointer-events: auto;
 }
+
+/* Main Content */
+main {
+    display: flex;
+    justify-content: center;
+    padding: 30px 60px;
+    min-height: calc(100vh - 70px);
+}
+
+main > * {
+    width: 100%;
+}
+
+
+.feed {
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-strong) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform var(--transition), box-shadow var(--transition);
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.feed:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(96, 165, 250, 0.15);
+}
+
+
+.feed-hearder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.1) 0%, transparent 100%);
+}
+
+.feed-hearder figure {
+    margin: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 16px rgba(96, 165, 250, 0.25);
+    flex-shrink: 0;
+}
+
+.feed-hearder figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.feed-hearder h2 {
+    font-size: 1.3rem;
+    color: var(--text-strong);
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(96, 165, 250, 0.2);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.rating span {
+    font-weight: 600;
+    color: var(--text-strong);
+    font-size: 0.95rem;
+}
+
+.rating img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Feed Content */
+.feed-content {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.feed-content h3 {
+    font-size: 1.1rem;
+    color: var(--text-strong);
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    padding-left: 12px;
+}
+
+.feed-content h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-strong) 100%);
+    border-radius: 2px;
+}
+
+/* Feed Images Grid */
+.feed-imagem {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.feed-imagem img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    transition: transform var(--transition), filter var(--transition), border-color var(--transition);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.feed-imagem img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+    border-color: var(--primary);
+    box-shadow: 0 6px 24px rgba(96, 165, 250, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    main {
+        padding: 20px 40px;
+    }
+
+    .feed-hearder {
+        padding: 12px 16px;
+        gap: 12px;
+    }
+
+    .feed-hearder figure {
+        width: 50px;
+        height: 50px;
+    }
+
+    .feed-hearder h2 {
+        font-size: 1.1rem;
+    }
+
+    .feed-content {
+        padding: 16px 16px;
+        gap: 12px;
+    }
+
+    .feed-imagem {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+    }
+
+    .feed-imagem img {
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 16px 20px;
+    }
+
+    .feed-hearder {
+        padding: 12px 16px;
+        gap: 10px;
+    }
+
+    .feed-hearder figure {
+        width: 45px;
+        height: 45px;
+    }
+
+    .feed-hearder h2 {
+        font-size: 1rem;
+    }
+
+    .feed-content {
+        padding: 16px 16px;
+        gap: 10px;
+    }
+
+    .feed-content h3 {
+        font-size: 1rem;
+    }
+
+    .feed-imagem {
+        grid-template-columns: 1fr;
+    }
+
+    .feed-imagem img {
+        height: 120px;
+    }
+}
