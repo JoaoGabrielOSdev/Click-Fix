@@ -60,6 +60,24 @@
     </main>
 
     <script>
+        // Função para formatar CPF
+        function formatCPF(value) {
+            value = value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length <= 3) return value;
+            if (value.length <= 6) return value.slice(0, 3) + '.' + value.slice(3);
+            if (value.length <= 9) return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6);
+            return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' + value.slice(9);
+        }
+
+        // Aplicar máscara no input CPF
+        const cpfInput = document.getElementById('cpf');
+        if (cpfInput) {
+            cpfInput.addEventListener('input', (e) => {
+                e.target.value = formatCPF(e.target.value);
+            });
+        }
+
         const userRegisterForm = document.getElementById('userRegisterForm');
 
         if (userRegisterForm) {
@@ -68,7 +86,7 @@
 
                 const nome = document.getElementById('nome').value.trim();
                 const email = document.getElementById('email').value.trim();
-                const cpf = document.getElementById('cpf').value.trim();
+                const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
                 const senha = document.getElementById('senha').value;
 
                 try {

@@ -69,6 +69,42 @@
     </main>
 
     <script>
+        // Função para formatar CNPJ
+        function formatCNPJ(value) {
+            value = value.replace(/\D/g, '');
+            if (value.length > 14) value = value.slice(0, 14);
+            if (value.length <= 2) return value;
+            if (value.length <= 5) return value.slice(0, 2) + '.' + value.slice(2);
+            if (value.length <= 8) return value.slice(0, 2) + '.' + value.slice(2, 5) + '.' + value.slice(5);
+            if (value.length <= 12) return value.slice(0, 2) + '.' + value.slice(2, 5) + '.' + value.slice(5, 8) + '/' + value.slice(8);
+            return value.slice(0, 2) + '.' + value.slice(2, 5) + '.' + value.slice(5, 8) + '/' + value.slice(8, 12) + '-' + value.slice(12);
+        }
+
+        // Função para formatar Telefone
+        function formatPhone(value) {
+            value = value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length <= 2) return value;
+            if (value.length <= 7) return '(' + value.slice(0, 2) + ') ' + value.slice(2);
+            return '(' + value.slice(0, 2) + ') ' + value.slice(2, 7) + '-' + value.slice(7);
+        }
+
+        // Aplicar máscara no input CNPJ
+        const cnpjInput = document.getElementById('cnpj');
+        if (cnpjInput) {
+            cnpjInput.addEventListener('input', (e) => {
+                e.target.value = formatCNPJ(e.target.value);
+            });
+        }
+
+        // Aplicar máscara no input Telefone
+        const telefoneInput = document.getElementById('telefone');
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', (e) => {
+                e.target.value = formatPhone(e.target.value);
+            });
+        }
+
         const companyRegisterForm = document.getElementById('companyRegisterForm');
 
         if (companyRegisterForm) {
@@ -77,9 +113,9 @@
 
                 const nomeEmpresa = document.getElementById('nome').value.trim();
                 const email = document.getElementById('email').value.trim();
-                const cnpj = document.getElementById('cnpj').value.trim();
+                const cnpj = document.getElementById('cnpj').value.replace(/\D/g, '');
                 const senha = document.getElementById('senha').value;
-                const telefone = document.getElementById('telefone').value.trim();
+                const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
                 const endereco = document.getElementById('endereco').value.trim();
 
                 try {
