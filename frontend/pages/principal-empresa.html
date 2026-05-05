@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Principal </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/principal-empresa.css">
+</head>
+<body>
+    <header>
+        <button class="mobile-nav" aria-label="Menu de navegação">
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
+
+      <a href="">
+        <img src="" alt="Foto de perfil da empresa" id="profile-photo">
+      </a>  
+
+    </header>
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-menu">
+
+            <a class="profile-photo" href="">
+                <img src="" alt="Foto de perfil da empresa" id="profile-photo">
+            </a>
+
+            <h2>Nome da Empresa</h2>
+
+            
+            <a href="agendamentos-empresa.html" class="sidebar-item">
+                Agendamento
+            </a>
+            <a href="notificacoes-empresa.html" class="sidebar-item">
+                Notificações
+            </a>
+            <a href="historico-empresa.html" class="sidebar-item">
+                Histórico de Serviços
+            </a>
+            <a href="configuracoes.html" class="sidebar-item">
+                Configurações
+            </a>
+            <a href="politica-de-privacidade.html" class="sidebar-item">
+                Política de Privacidade
+            </a>
+            <a href="termos-de-uso.html" class="sidebar-item">
+                Termos de Uso
+            </a>
+        </nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <main>
+        <div class="banner-company">
+            <figure>
+                <img src="" alt="Banner da empresa">
+            </figure>
+
+        </div>
+        
+        <div class="company-info">
+
+            <figure>
+                <img src="" alt="Foto de perfil da empresa">
+            </figure>
+
+            <h2>Nome da Empresa</h2>
+
+            <!--Avaliação da Empresa-->
+            <div class="rating">
+                <span>4,5</span>
+                <img src="../assets/images/Star.svg" alt="Icone de estrela para avaliação">
+            </div>
+
+            <p>Descrição da empresa...</p>
+
+            <h3>Localização</h3>
+
+        </div>
+        <!-- Galeria de Fotos da Loja-->
+        <div class="gallery">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+        </div>
+
+    </main>
+    <section>
+        <h2>Avaliações</h2>
+
+
+        <!---Avaliação do Usuário-->
+        <article class="review-item">
+            <div class="review-user">
+                <img src="" alt="Foto de perfil do usuário" class="user-avatar">
+                <div class="user-info">
+                    <h3>Nome do Usuário</h3>
+                    <span class="user-date">Há 2 dias</span>
+                </div>
+            </div>
+            <p>Avaliação do usuário...</p>
+            <label for="text-area">Responder:</label>
+            <textarea id="text-area" placeholder="Responder"></textarea>
+        </article>
+
+
+    </section>
+
+ <script>
+        const mobileNavBtn = document.querySelector('.mobile-nav');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        mobileNavBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', toggleSidebar);
+        });
+    </script>
+
+</body>
+</html>

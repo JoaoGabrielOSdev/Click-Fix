@@ -207,7 +207,7 @@ header{
     pointer-events: auto;
 }
 
-/* Main Content */
+
 main {
     display: flex;
     justify-content: center;
@@ -299,7 +299,7 @@ main > * {
     height: 20px;
 }
 
-/* Feed Content */
+
 .feed-content {
     padding: 16px 20px;
     display: flex;
@@ -328,7 +328,7 @@ main > * {
     border-radius: 2px;
 }
 
-/* Feed Images Grid */
+
 .feed-imagem {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
