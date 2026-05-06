@@ -45,6 +45,23 @@
                         <input type="tel" id="telefone" name="telefone" required  placeholder="Digite o numero de telefone">
                     </div>
 
+                    <!--Data de Aniversário-->
+                    <div class="input-box">
+                        <label for="aniversario">Data de Aniversário:</label>
+                        <input type="date" id="aniversario" name="aniversario" required>
+                    </div>
+
+                    <!--Gênero-->
+                    <div class="input-box">
+                        <label for="genero">Gênero:</label>
+                        <select id="genero" name="genero" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                            <option value="prefiro_nao_informar">Prefiro não informar</option>
+                        </select>
+                    </div>
+
                     <!--Endereço-->
                     <div class="input-box">
                          <label for="endereco">Endereço:</label>
@@ -116,13 +133,15 @@
                 const cnpj = document.getElementById('cnpj').value.replace(/\D/g, '');
                 const senha = document.getElementById('senha').value;
                 const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
+                const aniversario = document.getElementById('aniversario').value;
+                const genero = document.getElementById('genero').value;
                 const endereco = document.getElementById('endereco').value.trim();
 
                 try {
                     const response = await fetch('/api/empresa/registro', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nomeEmpresa, cnpj, email, senha, telefone, endereco })
+                        body: JSON.stringify({ nomeEmpresa, cnpj, email, senha, telefone, aniversario, genero, endereco })
                     });
 
                     const data = await response.json();

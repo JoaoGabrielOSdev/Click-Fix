@@ -47,6 +47,23 @@
                         <input type="tel" id="telefone" name="telefone" required placeholder="Digite o numero de telefone">
                     </div>
 
+                    <!--Data de Aniversário-->
+                    <div class="input-box">
+                        <label for="aniversario">Data de Aniversário:</label>
+                        <input type="date" id="aniversario" name="aniversario" required>
+                    </div>
+
+                    <!--Gênero-->
+                    <div class="input-box">
+                        <label for="genero">Gênero:</label>
+                        <select id="genero" name="genero" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                            <option value="prefiro_nao_informar">Prefiro não informar</option>
+                        </select>
+                    </div>
+
                         <!--Termos-->
                     <div class="terms">
                         <input type="checkbox" required>
@@ -112,13 +129,15 @@
                 const email = document.getElementById('email').value.trim();
                 const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
                 const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
+                const aniversario = document.getElementById('aniversario').value;
+                const genero = document.getElementById('genero').value;
                 const senha = document.getElementById('senha').value;
 
                 try {
                     const response = await fetch('/api/usuario/registro', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome, cpf, email, senha, telefone })
+                        body: JSON.stringify({ nome, cpf, email, senha, telefone, aniversario, genero })
                     });
 
                     const data = await response.json();
