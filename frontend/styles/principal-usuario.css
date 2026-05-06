@@ -231,7 +231,8 @@ main > * {
     transition: transform var(--transition), box-shadow var(--transition);
     display: flex;
     flex-direction: column;
-    
+    text-decoration: none;
+    color: inherit;
 }
 
 .feed:hover {
