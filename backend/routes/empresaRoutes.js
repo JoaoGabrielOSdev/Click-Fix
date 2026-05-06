@@ -32,7 +32,7 @@ router.post('/login', (req, res) => {
 
 // Rota para registro de empresa
 router.post('/registro', async (req, res) => {
-  const { nomeEmpresa, cnpj, email, senha, telefone, endereco } = req.body;
+  const { nomeEmpresa, cnpj, email, senha, telefone, endereco, aniversario, genero } = req.body;
 
   // Validação básica
   if (!nomeEmpresa || !cnpj || !email || !senha) {

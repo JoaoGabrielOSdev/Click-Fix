@@ -33,7 +33,7 @@ router.post('/login', (req, res) => {
 
 // Rota para registro de usuário
 router.post('/registro', async (req, res) => {
-  const { nome, cpf, email, senha, telefone } = req.body;
+  const { nome, cpf, email, senha, telefone, aniversario, genero } = req.body;
 
   // Validação básica
   if (!nome || !cpf || !email || !senha) {
@@ -76,8 +76,8 @@ router.post('/registro', async (req, res) => {
 
     // Inserir na tabela usuarios_comuns
     await pool.query(
-      'INSERT INTO usuarios_comuns (id_usuario, cpf) VALUES ($1, $2)',
-      [userId, cpf]
+      'INSERT INTO usuarios_comuns (id_usuario, cpf, nascimento, genero) VALUES ($1, $2, $3, $4)',
+      [userId, cpf, aniversario || null, genero || null]
     );
 
     console.log('Novo registro de usuário:', { nome, email, cpf });
