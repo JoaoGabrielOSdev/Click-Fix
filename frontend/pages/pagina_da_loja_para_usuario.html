@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/paginadalojaparaousuario.css">
+</head>
+<body>
+     <header>
+       <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
+
+      <a href="perfil-usuario.html">
+        <img src="" alt="Foto de perfil da empresa" id="profile-photo">
+      </a>  
+
+    </header>
+    
+    <main>
+        <div class="banner-company">
+            <figure>
+                <img src="" alt="Banner da empresa">
+            </figure>
+
+        </div>
+        
+        <div class="company-info">
+
+            <figure>
+                <img src="" alt="Foto de perfil da empresa">
+            </figure>
+
+            <h2>Nome da Empresa</h2>
+
+            <!--Avaliação da Empresa-->
+            <div class="rating">
+                <span>4,5</span>
+                <div class="stars">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star half">
+                </div>
+            </div>
+
+            <a href="agendamento_horario.html" class="agendamento-btn"><img src="../assets/images/Agendamento.svg" alt="botão de Agendamento"></a>
+
+            <p>Descrição da empresa...</p> 
+
+            <h3>Localização</h3>
+
+        </div>
+        <!-- Galeria de Fotos da Loja-->
+        <div class="gallery">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+            <img src="" alt="Fotos da Loja">
+        </div>
+
+    </main>
+    <section>
+        <h2>Avaliações</h2>
+
+
+        <!---Avaliação do Usuário-->
+        <article class="review-item">
+            <div class="review-user">
+                <img src="" alt="Foto de perfil do usuário" class="user-avatar">
+                <div class="user-info">
+                    <img src="" alt="Foto de perfil do usuario">
+                    <h3>Nome do Usuário</h3>
+                    
+                </div>
+            </div>
+            
+            <div class="rating">
+                <div class="stars interactive-stars">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star empty" data-rating="1">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star empty" data-rating="2">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star empty" data-rating="3">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star empty" data-rating="4">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star empty" data-rating="5">
+                </div>
+            </div>
+            
+          
+            <label for="text-area">Comentar:</label>
+            <textarea id="text-area" placeholder="Comente sua experiência..."></textarea>
+        </article>
+
+
+    </section>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const interactiveStars = document.querySelectorAll('.interactive-stars .star');
+            
+            interactiveStars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    const starsContainer = this.parentElement;
+                    const allStars = starsContainer.querySelectorAll('.star');
+                    
+                    allStars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.remove('empty');
+                            s.classList.add('filled');
+                        } else {
+                            s.classList.remove('filled');
+                            s.classList.add('empty');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

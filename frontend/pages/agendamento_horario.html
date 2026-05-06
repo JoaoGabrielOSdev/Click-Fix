@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento de Horário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/agendamento_horario.css">
+</head>
+<body>
+    <header>
+        <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
+
+        <a href="perfil-usuario.html">
+            <img src="" alt="Foto de perfil da empresa" id="profile-photo">
+        </a>
+    </header>
+
+    <main>
+        <div class="banner-company">
+            <figure>
+                <img src="" alt="Banner da empresa">
+            </figure>
+        </div>
+        
+        <div class="company-info">
+            <figure>
+                <img src="" alt="Foto de perfil da empresa">
+            </figure>
+
+            <h2>Nome da Empresa</h2>
+
+            <div class="rating">
+                <span>4,5</span>
+                <div class="stars">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star half">
+                </div>
+            </div>
+        </div>
+
+        <div class="scheduling-section">
+            <h3>Selecione uma Data</h3>
+            
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="calendar-nav prev" id="prevMonth">‹ Anterior</button>
+                    <h2 id="monthYear"></h2>
+                    <button class="calendar-nav next" id="nextMonth">Próximo ›</button>
+                </div>
+
+                <div class="weekdays">
+                    <div>Dom</div>
+                    <div>Seg</div>
+                    <div>Ter</div>
+                    <div>Qua</div>
+                    <div>Qui</div>
+                    <div>Sex</div>
+                    <div>Sab</div>
+                </div>
+
+                <div class="calendar-days" id="calendarDays"></div>
+            </div>
+        </div>
+
+        <div class="time-selection-section" id="timeSelectionSection" style="display:none;">
+            <h3>Selecione um Horário</h3>
+            <p id="selectedDateDisplay"></p>
+            
+            <div class="time-slots" id="timeSlots"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
+            <button class="next-button" type="button" id="confirmBtn" onclick="confirmBooking(); window.location.href='descricao_problema.html'">Confirmar</button>
+        </div>
+    </main>
+
+    <script src="../scripts/agendamento_horario.js"></script>
+</body>
+</html>

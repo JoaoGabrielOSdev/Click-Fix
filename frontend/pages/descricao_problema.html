@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descrição do Problema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/descricao_problema.css">
+</head>
+<body>
+    <header>
+        <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
+
+        <a href="perfil-usuario.html">
+            <img src="" alt="Foto de perfil da empresa" id="profile-photo">
+        </a>
+    </header>
+    <main>
+        <div class="banner-company">
+            <figure>
+                <img src="" alt="Banner da empresa">
+            </figure>
+        </div>
+        
+        <div class="company-info">
+            <figure>
+                <img src="" alt="Foto de perfil da empresa">
+            </figure>
+
+            <h2>Nome da Empresa</h2>
+
+            <div class="rating">
+                <span>4,5</span>
+                <div class="stars">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                    <img src="../assets/images/Star.svg" alt="Estrela" class="star half">
+                </div>
+            </div>
+        </div>
+
+        <div class="client-info">
+            <label>Veículo</label>
+                <select id="veiculo"></select>
+
+            <label>Chassi</label>
+            <input type="text" id="chassi" readonly>
+        </div>
+
+        <div class="problem-description">
+            <h3>Descreva o Problema</h3>
+            <p>Por favor, forneça uma descrição detalhada do problema que você está enfrentando com seu veículo. Quanto mais informações você fornecer, melhor poderemos entender a situação e oferecer uma solução adequada.</p>
+            <input type="text" placeholder="Descreva o problema...">
+        </div>
+    </main>
+</body>
+</html>
