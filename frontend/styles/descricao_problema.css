@@ -41,6 +41,17 @@ header {
   z-index: 10;
 }
 
+header > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
 header > a img {
   width: 100%;
   height: 100%;
@@ -149,4 +160,150 @@ main {
 
 .rating .half {
   clip-path: inset(0 50% 0 0);
+}
+
+.client-info,
+.problem-description {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.client-info h3,
+.problem-description h3 {
+  margin: 0 0 20px;
+  font-size: 1.3rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.client-info label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-strong);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.client-info select,
+.client-info input,
+.problem-description input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: "Inria Sans", sans-serif;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  margin-bottom: 16px;
+}
+
+
+.problem-description textarea {
+  width: 100%;
+  height: 200px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: "Inria Sans", sans-serif;
+  resize: none;
+}
+
+.problem-description textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+
+.client-info select:focus,
+.client-info input:focus{
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.client-info select option {
+  background: var(--bg-dark);
+  color: var(--text);
+}
+
+.client-info input[readonly] {
+  background: rgba(255, 255, 255, 0.04);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.problem-description p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.btn {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.btn button {
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: "Inria Sans", sans-serif;
+}
+
+.btn button:first-child {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border);
+  color: var(--text-strong);
+}
+
+.btn button:first-child:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn button:last-child {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-strong) 100%);
+  border: none;
+  color: #fff;
+}
+
+.btn button:last-child:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(96, 165, 250, 0.3);
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 20px 16px 30px;
+  }
+
+  .client-info,
+  .problem-description {
+    padding: 20px;
+  }
+
+  .btn {
+    flex-direction: column-reverse;
+  }
+
+  .btn button {
+    width: 100%;
+  }
 }

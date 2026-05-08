@@ -7,13 +7,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/principal-usuario.css">
+    <link rel="stylesheet" href="../styles/meus-carros.css">
 </head>
 <body>
+    <header>
+        <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
+
+        <a href="perfil-usuario.html">
+            <img src="" alt="Foto de perfil da empresa" id="profile-photo">
+        </a>
+    </header>
     <main>
-        <a href="principal-usuario.html">← Voltar</a>
         <h1>Meus Carros</h1>
-        <p>Esta é a página de Meus Carros.</p>
+        
+        <div class="add-car">
+            <a href="">
+            <figure>
+                <img src="../assets/images/Icone_Mais.svg" alt="adicinar carro">
+                <h3>Adicionar Novo Carro</h3>
+            </figure>
+            </a>
+        </div>
+
+        <hr class="divider">
+
+        <div class="registered-car">
+            <div class="car-item">
+                <img src="" alt="Carro registrado">
+                <div class="car-info">
+                    <h3>Modelo do Carro</h3>
+                    <p>Ano: 2020</p>
+                    <p>Placa: ABC-1234</p>
+                </div>
+            </div>
+            
+
+        </div>
     </main>
 </body>
 </html>

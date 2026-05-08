@@ -7,13 +7,52 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/principal-usuario.css">
+    <link rel="stylesheet" href="../styles/perfil-usuario.css">
 </head>
 <body>
+    <header>
+        <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
+    </header>
     <main>
-        <a href="principal-usuario.html">← Voltar</a>
-        <h1>Perfil</h1>
-        <p>Esta é a página de Perfil.</p>
+        <div class="info">
+            <img src="" alt="Foto de perfil do usuário" id="profile-photo">
+            <h1>Nome do Usuário</h1>
+            <span>Modelo do carro</span>
+
+        </div>
+
+        <div class="registered-cars">
+            <h3>Meus Veículos</h3>
+            <div class="car-grid">
+                <div class="main-car">
+                    <img src="../assets/images/car-3.avif" alt="Carro principal">
+                </div>
+                <div class="other-cars">
+                    <img src="" alt="Carro registrado">
+                    <img src="" alt="Carro registrado">
+                    <img src="" alt="Carro registrado">
+                </div>
+            </div>
+        </div>
+        
+        <div class="services">
+            <h3>Histórico de Serviços</h3>
+            <div class="service-specifications">
+                <div class="service-image">
+                    <img src="" alt="Foto ilustrativa do serviço">
+                </div>
+                <div class="service-info">
+                    <h2>Nome do Serviço</h2>
+                    <p class="service-label">Última vistoria:</p>
+                    <span class="service-date">Data da ultima vistoria</span>
+                    <p class="service-label">Próxima vistoria:</p>
+                    <span class="service-next">Tempo ate a proxima vistoria</span>
+                </div>
+            </div>
+        </div>
+
+        
+        
     </main>
 </body>
 </html>
