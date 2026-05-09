@@ -10,6 +10,7 @@ const db = require('./database');
 // Importar rotas
 const usuarioRoutes = require('../routes/usuarioRoutes');
 const empresaRoutes = require('../routes/empresaRoutes');
+const emailRoutes = require('../routes/emailRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, '../../frontend')));
 // Rotas
 app.use('/api/usuario', usuarioRoutes);
 app.use('/api/empresa', empresaRoutes);
+app.use('/api/email', emailRoutes);
 
 // Rota principal - servir a página de boas vindas
 app.get('/', (req, res) => {

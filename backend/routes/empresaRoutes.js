@@ -1,6 +1,7 @@
-const express = require('express');
+  const express = require('express');
 const bcrypt = require('bcrypt');
 const pool = require('../src/database');
+const { validateEmail } = require('../utils/emailValidation');
 const router = express.Router();
 
 // Rota para login da empresa
@@ -43,6 +44,15 @@ router.post('/registro', async (req, res) => {
   }
 
   try {
+    // Validar email
+    const emailValidation = await validateEmail(email);
+    if (!emailValidation.valid) {
+      return res.status(400).json({
+        success: false,
+        message: emailValidation.message
+      });
+    }
+
     // Verificar se email já existe
     const emailCheck = await pool.query('SELECT id_usuario FROM usuarios WHERE email = $1', [email]);
     if (emailCheck.rows.length > 0) {
