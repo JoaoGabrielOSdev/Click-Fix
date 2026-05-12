@@ -7,13 +7,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/principal-usuario.css">
+    <link rel="stylesheet" href="../styles/orcamento.css">
 </head>
 <body>
-    <main>
-        <a href="principal-usuario.html">← Voltar</a>
+    <header>
+        <button class="back-button" type="button" onclick="window.history.back()">← Voltar</button>
+
         <h1>Orçamento</h1>
-        <p>Esta é a página de Orçamento.</p>
+
+      <a href="perfil-usuario.html" class="profile-link">
+            <img src="" alt="Foto de perfil" id="profile-photo">
+        </a>
+    </header>
+    <main>
+     
+        <div class="budget">
+            <!--Dia da Notificação-->
+            <h2>Hoje</h2>
+            <a href="detalhes-orcamento.html" class="budget-box">
+                <div class="budget-header">
+                    <img src="perfil-empresa.html" alt="Foto de perfil da empresa">
+                    <h3>Nome da Empresa</h3>
+                </div>
+                <p>Gostaria de aceitar o Orçamento?</p>
+                <div class="budget-actions">
+                    <button class="btn" type="button">Aceitar</button>
+                    <button class="btn" type="button">Recusar</button>
+                </div>
+            </a>
+
+
+            <div class="line"></div>
+        </div>        
     </main>
 </body>
 </html>
