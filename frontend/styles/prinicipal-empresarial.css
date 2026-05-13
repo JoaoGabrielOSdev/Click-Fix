@@ -206,6 +206,8 @@ main {
   display: flex;
   align-items: center;
   gap: 12px;
+
+  filter: brightness(0) invert(1);
 }
 
 .box-header img {
