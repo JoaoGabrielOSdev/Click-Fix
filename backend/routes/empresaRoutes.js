@@ -253,4 +253,80 @@ router.put('/perfil/:id', async (req, res) => {
   }
 });
 
+// Rota para listar empresas do usuário (para exibir no feed)
+// Endpoint: GET /api/empresa/empresasUsuario/:idUsuario
+router.get('/empresasUsuario/:idUsuario', async (req, res) => {
+  const { idUsuario } = req.params;
+
+  try {
+    // Retorna nome, localização e fotos (se existirem no schema).
+    // OBS: seu schema não tem fotos múltiplas; então enviamos as disponíveis.
+    const result = await pool.query(
+      `SELECT 
+          e.id_empresa,
+          e.nome_fantasia,
+          e.localizacao,
+          e.endereco,
+          p.foto_perfil,
+          p.bio
+        FROM empresas e
+        LEFT JOIN perfis_empresas p ON p.id_empresa = e.id_empresa
+        WHERE e.id_usuario = $1`,
+      [idUsuario]
+    );
+
+    const empresas = result.rows.map((row) => ({
+      id_empresa: row.id_empresa,
+      nome_fantasia: row.nome_fantasia,
+      localizacao: row.localizacao,
+      endereco: row.endereco,
+      foto_perfil: row.foto_perfil,
+      bio: row.bio,
+      // placeholders para compatibilidade com o front (foto_1..foto_5)
+      foto_1: null,
+      foto_2: null,
+      foto_3: null,
+      foto_4: null,
+      foto_5: null
+    }));
+
+    res.json({
+      success: true,
+      empresas
+    });
+  } catch (error) {
+    console.error('Erro ao buscar empresas do usuário:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno ao buscar empresas do usuário'
+    });
+  }
+});
+
+// Rota para verificar se o usuário (id_usuario) tem empresa cadastrada
+// Endpoint: GET /api/empresa/temEmpresa/:idUsuario
+router.get('/temEmpresa/:idUsuario', async (req, res) => {
+  const { idUsuario } = req.params;
+
+  try {
+    const result = await pool.query(
+      'SELECT 1 FROM empresas WHERE id_usuario = $1 LIMIT 1',
+      [idUsuario]
+    );
+
+    const temEmpresa = result.rows.length > 0;
+
+    res.json({
+      success: true,
+      temEmpresa
+    });
+  } catch (error) {
+    console.error('Erro ao verificar empresa do usuário:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno ao verificar empresa'
+    });
+  }
+});
+
 module.exports = router;

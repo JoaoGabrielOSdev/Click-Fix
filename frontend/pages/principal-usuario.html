@@ -64,7 +64,9 @@
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <main>
-        <a href="pagina_da_loja_para_usuario.html" class="feed">
+        <div id="company-feed-list" class="company-feed-list">
+            <a href="pagina_da_loja_para_usuario.html" class="feed" id="company-feed-template" style="display:none;">
+
             <div class="feed-hearder">
                 <!---Foto de perfil da Empresa-->
                 <figure>
@@ -93,11 +95,89 @@
                 <h3>Localização </h3>
             </div>
 
-        </a>
+            </a>
+        </div>
+
+        <div id="no-company-message" class="no-company-message" style="display:none;">Não há Empresas Registradas perto de você</div>
     </main>
     
+
+    
     <script>
+        // Mostra/oculta feed conforme empresas cadastradas do usuário
+        (async function initCompanyFeed() {
+            const list = document.getElementById('company-feed-list');
+            const template = document.getElementById('company-feed-template');
+            const msg = document.getElementById('no-company-message');
+
+            if (!list || !template || !msg) return;
+
+            // Login atual é simulado (backend não usa sessão/token). Para compatibilidade,
+            // consideramos o usuário logado como id_usuario = 1.
+            const userId = 1;
+
+            try {
+                // endpoint novo: retorna as empresas do usuário (com dados pro feed)
+                const res = await fetch(`/api/empresa/empresasUsuario/${userId}`);
+                const data = await res.json();
+                const empresas = (data && data.empresas) ? data.empresas : [];
+
+                // remove clones (mantém template)
+                list.querySelectorAll('.feed').forEach(el => {
+                    if (el.id !== 'company-feed-template') el.remove();
+                });
+
+                if (!empresas.length) {
+                    template.style.display = 'none';
+                    list.classList.add('hidden');
+                    msg.style.display = 'block';
+                    return;
+                }
+
+                list.classList.remove('hidden');
+                msg.style.display = 'none';
+                template.style.display = 'none';
+
+                empresas.forEach((empresa) => {
+                    const clone = template.cloneNode(true);
+                    clone.removeAttribute('id');
+                    clone.style.display = 'flex';
+
+                    // Nome
+                    const nameEl = clone.querySelector('.feed-hearder h2');
+                    if (nameEl) nameEl.textContent = empresa.nome_fantasia || empresa.nome || 'Nome da Empresa';
+
+                    // Foto (se existir)
+                    const headerImg = clone.querySelector('.feed-hearder figure img');
+                    if (headerImg) {
+                        headerImg.src = empresa.foto_perfil || empresa.foto_perfil_url || '';
+                    }
+
+                    // Imagens do corpo (placeholder se não tiver)
+                    const bodyImgs = clone.querySelectorAll('.feed-imagem img');
+                    if (bodyImgs && bodyImgs.length) {
+                        // usa foto1..foto5 se vier do backend; senão mantém vazio
+                        const fotos = [empresa.foto_1, empresa.foto_2, empresa.foto_3, empresa.foto_4, empresa.foto_5].filter(Boolean);
+                        bodyImgs.forEach((img, idx) => {
+                            img.src = fotos[idx] || '';
+                        });
+                    }
+
+                    // Localização
+                    const localEl = clone.querySelector('.feed-content h3');
+                    if (localEl) localEl.textContent = empresa.localizacao || empresa.endereco || 'Localização';
+
+                    list.appendChild(clone);
+                });
+            } catch (e) {
+                    template.style.display = 'none';
+                    list.classList.add('hidden');
+                    msg.style.display = 'block';
+                }
+        })();
+
         const mobileNavBtn = document.querySelector('.mobile-nav');
+
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
 
