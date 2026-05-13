@@ -63,7 +63,12 @@
 
                 if (data.success) {
                     alert('Login realizado com sucesso!');
-                    window.location.href = '/principal/empresa';
+                    if (data.empresa && data.empresa.id) {
+                        localStorage.setItem('empresaId', data.empresa.id);
+                        window.location.href = `/principal/empresa?id=${data.empresa.id}`;
+                    } else {
+                        window.location.href = '/principal/empresa';
+                    }
                 } else {
                     alert(data.message || 'Erro no login');
                 }

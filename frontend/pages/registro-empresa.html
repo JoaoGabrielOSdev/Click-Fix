@@ -147,7 +147,7 @@
                     const data = await response.json();
 
                     if (data.success) {
-                        alert('Empresa registrada com sucesso!');
+                        alert('Empresa registrada com sucesso! Faça login para acessar sua conta.');
                         window.location.href = '/login/empresa';
                     } else {
                         alert(data.message || 'Erro ao registrar empresa.');

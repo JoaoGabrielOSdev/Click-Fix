@@ -5,7 +5,7 @@ const { validateEmail } = require('../utils/emailValidation');
 const router = express.Router();
 
 // Rota para login da empresa
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, senha } = req.body;
 
   // Validação básica
@@ -16,19 +16,49 @@ router.post('/login', (req, res) => {
     });
   }
 
-  // Aqui você implementará a lógica de autenticação
-  console.log('Tentativa de login da empresa:', { email });
+  try {
+    const result = await pool.query(
+      `SELECT u.id_usuario, u.email, u.senha AS hashed_senha, e.id_empresa, e.nome_fantasia
+       FROM usuarios u
+       JOIN empresas e ON e.id_usuario = u.id_usuario
+       WHERE u.email = $1 AND u.tipo_usuario = $2`,
+      [email, 'empresa']
+    );
 
-  // Simulação de autenticação bem-sucedida
-  res.json({
-    success: true,
-    message: 'Login realizado com sucesso!',
-    empresa: {
-      id: 1,
-      email: email,
-      tipo: 'empresa'
+    if (result.rows.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: 'Email ou senha inválidos'
+      });
     }
-  });
+
+    const empresa = result.rows[0];
+    const senhaValida = await bcrypt.compare(senha, empresa.hashed_senha);
+
+    if (!senhaValida) {
+      return res.status(401).json({
+        success: false,
+        message: 'Email ou senha inválidos'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Login realizado com sucesso!',
+      empresa: {
+        id: empresa.id_empresa,
+        nome: empresa.nome_fantasia,
+        email: empresa.email,
+        tipo: 'empresa'
+      }
+    });
+  } catch (error) {
+    console.error('Erro no login da empresa:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
 });
 
 // Rota para registro de empresa
@@ -114,24 +144,113 @@ router.post('/registro', async (req, res) => {
 });
 
 // Rota para obter perfil da empresa
-router.get('/perfil/:id', (req, res) => {
+router.get('/perfil/:id', async (req, res) => {
   const empresaId = req.params.id;
 
-  // Aqui você buscaria a empresa no banco de dados
-  console.log('Buscando perfil da empresa:', empresaId);
+  try {
+    const result = await pool.query(
+      `SELECT e.id_empresa,
+              e.nome_fantasia AS nome_empresa,
+              e.cnpj,
+              e.categoria,
+              e.localizacao,
+              e.endereco,
+              u.email,
+              u.telefone,
+              p.foto_perfil,
+              p.bio
+       FROM empresas e
+       JOIN usuarios u ON u.id_usuario = e.id_usuario
+       LEFT JOIN perfis_empresas p ON p.id_empresa = e.id_empresa
+       WHERE e.id_empresa = $1`,
+      [empresaId]
+    );
 
-  // Simulação de dados da empresa
-  res.json({
-    success: true,
-    empresa: {
-      id: empresaId,
-      nomeEmpresa: 'Oficina Silva Ltda',
-      cnpj: '12.345.678/0001-90',
-      email: 'contato@oficinasilva.com',
-      telefone: '(11) 3333-4444',
-      tipo: 'empresa'
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Empresa não encontrada'
+      });
     }
-  });
+
+    res.json({
+      success: true,
+      empresa: result.rows[0]
+    });
+  } catch (error) {
+    console.error('Erro ao buscar perfil da empresa:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno ao buscar o perfil'
+    });
+  }
+});
+
+// Rota para atualizar perfil da empresa
+router.put('/perfil/:id', async (req, res) => {
+  const empresaId = req.params.id;
+  const {
+    nomeEmpresa,
+    categoria,
+    localizacao,
+    endereco,
+    telefone,
+    bio,
+    fotoPerfil
+  } = req.body;
+
+  try {
+    const empresaResult = await pool.query(
+      'SELECT id_usuario FROM empresas WHERE id_empresa = $1',
+      [empresaId]
+    );
+
+    if (empresaResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Empresa não encontrada'
+      });
+    }
+
+    const idUsuario = empresaResult.rows[0].id_usuario;
+
+    await pool.query(
+      `UPDATE empresas
+       SET nome_fantasia = COALESCE($1, nome_fantasia),
+           categoria = COALESCE($2, categoria),
+           localizacao = COALESCE($3, localizacao),
+           endereco = COALESCE($4, endereco)
+       WHERE id_empresa = $5`,
+      [nomeEmpresa, categoria, localizacao, endereco, empresaId]
+    );
+
+    await pool.query(
+      `UPDATE usuarios
+       SET telefone = COALESCE($1, telefone)
+       WHERE id_usuario = $2`,
+      [telefone, idUsuario]
+    );
+
+    await pool.query(
+      `INSERT INTO perfis_empresas (id_empresa, foto_perfil, bio)
+       VALUES ($1, $2, $3)
+       ON CONFLICT (id_empresa) DO UPDATE
+       SET foto_perfil = EXCLUDED.foto_perfil,
+           bio = EXCLUDED.bio`,
+      [empresaId, fotoPerfil || null, bio || null]
+    );
+
+    res.json({
+      success: true,
+      message: 'Perfil da empresa atualizado com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar perfil da empresa:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno ao atualizar o perfil'
+    });
+  }
 });
 
 module.exports = router;

@@ -134,6 +134,37 @@
         document.querySelectorAll('.sidebar-item').forEach(item => {
             item.addEventListener('click', toggleSidebar);
         });
+
+        const empresaId = new URLSearchParams(window.location.search).get('id') || localStorage.getItem('empresaId');
+        if (empresaId) {
+            localStorage.setItem('empresaId', empresaId);
+            document.querySelectorAll('a[href="/perfil/empresa"]').forEach(link => {
+                link.href = `/perfil/empresa?id=${empresaId}`;
+            });
+
+            async function carregarPerfilEmpresa() {
+                try {
+                    const response = await fetch(`/api/empresa/perfil/${empresaId}`);
+                    const data = await response.json();
+
+                    if (!data.success) return;
+
+                    const profileImages = document.querySelectorAll('#profile-photo');
+                    profileImages.forEach(img => {
+                        img.src = data.empresa.foto_perfil || '../assets/images/Adicionar.png';
+                    });
+
+                    const nomeElemento = document.querySelector('.sidebar-menu h2');
+                    if (nomeElemento) {
+                        nomeElemento.textContent = data.empresa.nome_empresa || 'Empresa';
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar dados da empresa:', error);
+                }
+            }
+
+            carregarPerfilEmpresa();
+        }
     </script>
 
 </body>

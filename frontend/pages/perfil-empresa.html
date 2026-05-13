@@ -28,7 +28,7 @@
                 <img src="" alt="Foto de perfil da empresa" id="profile-photo">
             </a>
 
-            <h2>Nome da Empresa</h2>
+            <h2 id="sidebarCompanyName">Nome da Empresa</h2>
 
             
             <a href="agendamentos-empresa.html" class="sidebar-item">
@@ -52,104 +52,157 @@
         </nav>
     </aside>
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
-    <main>
-        <div class="banner-company">
-            <figure>
-                <img src="../assets/images/Adicionar.png" alt="Banner da empresa">
-            </figure>
-
-        </div>
-        
-        <div class="company-info">
-
-    <figure>
-        <img src="" alt="Foto de perfil da empresa">
-    </figure>
-
-    <div class="company-details">
-
-        <div class="title-row">
-            <h2>Nome da Empresa</h2>
-
-            <img src="../assets/images/Editar.svg"
-                 alt="Ícone de edição"
-                 class="edit-icon">
-        </div>
-
-        <!-- Avaliação -->
-        <div class="rating">
-            <span>4,5</span>
-
-            <div class="stars">
-                <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                <img src="../assets/images/Star.svg" alt="Estrela" class="star half">
+    <main class="main-content">
+        <section class="profile-header-section">
+            <div class="banner-company">
+                <figure>
+                    <img src="../assets/images/Adicionar.png" alt="Banner da empresa">
+                </figure>
             </div>
-        </div>
 
-        <div class="description-row">
-            <p>Descrição da empresa...</p>
+            <div class="profile-card">
+                <div class="profile-avatar-frame">
+                    <img id="companyPhoto" src="../assets/images/Adicionar.png" alt="Foto de perfil da empresa">
+                </div>
+                <div class="profile-details-card">
+                    <div class="profile-top-row">
+                        <div>
+                            <h1 id="profileName">Nome da Empresa</h1>
+                            <p id="profileCategory" class="profile-badge">Categoria</p>
+                        </div>
+                        <span class="status-chip">Empresa</span>
+                    </div>
 
-            <img src="../assets/images/Editar.svg"
-                 alt="Ícone de edição"
-                 class="edit-icon">
-        </div>
+                    <div class="profile-meta-list">
+                        <div class="meta-item">
+                            <span>Email</span>
+                            <strong id="profileEmail">contato@empresa.com</strong>
+                        </div>
+                        <div class="meta-item">
+                            <span>CNPJ</span>
+                            <strong id="profileCNPJ">00.000.000/0000-00</strong>
+                        </div>
+                        <div class="meta-item">
+                            <span>Telefone</span>
+                            <strong id="profilePhone">(00) 00000-0000</strong>
+                        </div>
+                    </div>
 
-        <h3>Localização</h3>
+                    <p id="profileBio" class="profile-summary">Descrição da empresa...</p>
+                </div>
+            </div>
+        </section>
 
-    </div>
+        <section class="profile-form-card">
+            <div class="section-header">
+                <div>
+                    <h2>Editar perfil da empresa</h2>
+                    <p>Atualize as informações de perfil da empresa e salve os dados no sistema.</p>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/principal/empresa'">Voltar</button>
+            </div>
 
-</div>
+            <form id="companyProfileForm" class="profile-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fotoPerfil">URL da foto de perfil</label>
+                        <input type="url" id="fotoPerfil" name="fotoPerfil" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label for="nomeEmpresa">Nome da Empresa</label>
+                        <input type="text" id="nomeEmpresa" name="nomeEmpresa" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cnpj">CNPJ</label>
+                        <input type="text" id="cnpj" name="cnpj" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999">
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoria</label>
+                        <input type="text" id="categoria" name="categoria" placeholder="Mecânica, Funilaria, etc.">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="localizacao">Localização</label>
+                        <input type="text" id="localizacao" name="localizacao" placeholder="Cidade / Bairro">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="endereco">Endereço</label>
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, número, complemento">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="bio">Descrição</label>
+                        <textarea id="bio" name="bio" rows="4" placeholder="Conte mais sobre a empresa"></textarea>
+                    </div>
+                </div>
 
-        </div>
-        <!-- Galeria de Fotos da Loja-->
-        <div class="gallery">
-            <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
-            <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
-            <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
-            <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
-            <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
-        </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn save-button">Salvar perfil</button>
+                    <p id="formMessage" class="form-message"></p>
+                </div>
+            </form>
+        </section>
 
+        <section class="gallery-section">
+            <div class="section-header">
+                <h2>Galeria da loja</h2>
+            </div>
+            <div class="gallery">
+                <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
+                <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
+                <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
+                <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
+                <img src="../assets/images/Adicionar.png" alt="Fotos da Loja">
+            </div>
+        </section>
+
+        <section class="reviews-section">
+            <div class="section-header">
+                <h2>Avaliações</h2>
+            </div>
+
+            <article class="review-item">
+                <div class="review-user">
+                    <img src="../assets/images/Adicionar.png" alt="Foto de perfil do usuário" class="user-avatar">
+                    <div class="user-info">
+                        <h3>Nome do Usuário</h3>
+                        <span class="user-date">Há 2 dias</span>
+                    </div>
+                </div>
+                <div class="rating">
+                    <div class="stars">
+                        <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                        <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                        <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                        <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
+                        <img src="../assets/images/Star.svg" alt="Estrela" class="star empty">
+                    </div>
+                </div>
+                <p>Avaliação do usuário...</p>
+                <label for="text-area">Responder:</label>
+                <textarea id="text-area" placeholder="Responder"></textarea>
+            </article>
+        </section>
     </main>
-    <section>
-        <h2>Avaliações</h2>
-
-
-        <!---Avaliação do Usuário-->
-        <article class="review-item">
-            <div class="review-user">
-                <img src="" alt="Foto de perfil do usuário" class="user-avatar">
-                <div class="user-info">
-                    <h3>Nome do Usuário</h3>
-                    <span class="user-date">Há 2 dias</span>
-                </div>
-            </div>
-            
-            <div class="rating">
-                <div class="stars">
-                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                    <img src="../assets/images/Star.svg" alt="Estrela" class="star filled">
-                    <img src="../assets/images/Star.svg" alt="Estrela" class="star empty">
-                </div>
-            </div>
-            
-            <p>Avaliação do usuário...</p>
-            <label for="text-area">Responder:</label>
-            <textarea id="text-area" placeholder="Responder"></textarea>
-        </article>
-
-
-    </section>
 
  <script>
         const mobileNavBtn = document.querySelector('.mobile-nav');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
+        const companyPhoto = document.getElementById('companyPhoto');
+        const formMessage = document.getElementById('formMessage');
+        const companyProfileForm = document.getElementById('companyProfileForm');
+        const companyId = new URLSearchParams(window.location.search).get('id') || localStorage.getItem('empresaId');
+
+        if (companyId) {
+            localStorage.setItem('empresaId', companyId);
+        }
 
         function toggleSidebar() {
             sidebar.classList.toggle('active');
@@ -162,6 +215,102 @@
         document.querySelectorAll('.sidebar-item').forEach(item => {
             item.addEventListener('click', toggleSidebar);
         });
+
+        async function carregarPerfil() {
+            try {
+                if (!companyId) {
+                    formMessage.textContent = 'Empresa não identificada. Faça login novamente.';
+                    formMessage.classList.add('error');
+                    return;
+                }
+
+                const response = await fetch(`/api/empresa/perfil/${companyId}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    formMessage.textContent = data.message || 'Não foi possível carregar o perfil';
+                    formMessage.classList.add('error');
+                    return;
+                }
+
+                const empresa = data.empresa;
+                document.getElementById('nomeEmpresa').value = empresa.nome_empresa || '';
+                document.getElementById('cnpj').value = empresa.cnpj || '';
+                document.getElementById('email').value = empresa.email || '';
+                document.getElementById('telefone').value = empresa.telefone || '';
+                document.getElementById('categoria').value = empresa.categoria || '';
+                document.getElementById('localizacao').value = empresa.localizacao || '';
+                document.getElementById('endereco').value = empresa.endereco || '';
+                document.getElementById('bio').value = empresa.bio || '';
+                document.getElementById('fotoPerfil').value = empresa.foto_perfil || '';
+                companyPhoto.src = empresa.foto_perfil || '../assets/images/Adicionar.png';
+
+                // Preencher a visualização do perfil
+                document.getElementById('profileName').textContent = empresa.nome_empresa || 'Nome da Empresa';
+                document.getElementById('profileCategory').textContent = empresa.categoria || 'Categoria';
+                document.getElementById('profileEmail').textContent = empresa.email || 'contato@empresa.com';
+                document.getElementById('profileCNPJ').textContent = empresa.cnpj || '00.000.000/0000-00';
+                document.getElementById('profilePhone').textContent = empresa.telefone || '(00) 00000-0000';
+                document.getElementById('profileBio').textContent = empresa.bio || 'Descrição da empresa...';
+
+                // Atualizar sidebar
+                document.getElementById('sidebarCompanyName').textContent = empresa.nome_empresa || 'Nome da Empresa';
+
+            } catch (error) {
+                console.error('Erro ao carregar perfil:', error);
+                formMessage.textContent = 'Erro ao carregar dados do perfil';
+                formMessage.classList.add('error');
+            }
+        }
+
+        companyProfileForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            formMessage.textContent = '';
+            formMessage.classList.remove('error', 'success');
+
+            const payload = {
+                nomeEmpresa: document.getElementById('nomeEmpresa').value.trim(),
+                categoria: document.getElementById('categoria').value.trim(),
+                localizacao: document.getElementById('localizacao').value.trim(),
+                endereco: document.getElementById('endereco').value.trim(),
+                telefone: document.getElementById('telefone').value.trim(),
+                bio: document.getElementById('bio').value.trim(),
+                fotoPerfil: document.getElementById('fotoPerfil').value.trim()
+            };
+
+            try {
+                const response = await fetch(`/api/empresa/perfil/${companyId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    formMessage.textContent = 'Perfil salvo com sucesso!';
+                    formMessage.classList.add('success');
+                    companyPhoto.src = payload.fotoPerfil || '../assets/images/Adicionar.png';
+
+                    // Atualizar a visualização do perfil com os novos dados
+                    document.getElementById('profileName').textContent = payload.nomeEmpresa || 'Nome da Empresa';
+                    document.getElementById('profileCategory').textContent = payload.categoria || 'Categoria';
+                    document.getElementById('profileBio').textContent = payload.bio || 'Descrição da empresa...';
+
+                    // Atualizar sidebar
+                    document.getElementById('sidebarCompanyName').textContent = payload.nomeEmpresa || 'Nome da Empresa';
+                } else {
+                    formMessage.textContent = data.message || 'Erro ao salvar perfil';
+                    formMessage.classList.add('error');
+                }
+
+            } catch (error) {
+                console.error('Erro ao salvar perfil:', error);
+                formMessage.textContent = 'Erro ao salvar perfil. Tente novamente.';
+                formMessage.classList.add('error');
+            }
+        });
+
+        carregarPerfil();
     </script>
 
 </body>
