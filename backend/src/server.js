@@ -67,6 +67,11 @@ app.get('/principal/usuario', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/pages/principal-usuario.html'));
 });
 
+// Rota para página principal da empresa
+app.get('/principal/empresa', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/principal-empresarial.html'));
+});
+
 // Middleware de erro
 app.use((err, req, res, next) => {
   console.error(err.stack);

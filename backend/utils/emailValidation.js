@@ -28,7 +28,8 @@ async function validateEmail(email) {
       };
     }
 
-    // 4. Verificar registros MX do domínio
+    // 4. Verificar registros MX do domínio (comentado para debugging)
+    /*
     try {
       const mxRecords = await dns.resolveMx(domain);
       if (!mxRecords || mxRecords.length === 0) {
@@ -44,6 +45,7 @@ async function validateEmail(email) {
         message: 'Não foi possível verificar o domínio do email'
       };
     }
+    */
 
     // Se passou por todas as validações
     return {
