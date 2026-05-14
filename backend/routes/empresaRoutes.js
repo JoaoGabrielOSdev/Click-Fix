@@ -1,7 +1,8 @@
-  const express = require('express');
+const express = require('express');
 const bcrypt = require('bcrypt');
 const pool = require('../src/database');
 const { validateEmail } = require('../utils/emailValidation');
+const { uploadSingle, uploadMultiple, handleUpload, deleteFile } = require('../utils/upload');
 const router = express.Router();
 
 // Rota para login da empresa
@@ -250,6 +251,137 @@ router.put('/perfil/:id', async (req, res) => {
       success: false,
       message: 'Erro interno ao atualizar o perfil'
     });
+  }
+});
+
+// ─── Foto de perfil da empresa ───────────────────────────────────────────────
+
+// POST /api/empresa/:id/foto-perfil
+router.post('/:id/foto-perfil', async (req, res) => {
+  try {
+    await handleUpload(uploadSingle, req, res);
+  } catch (err) {
+    return res.status(err.status || 400).json({ success: false, message: err.message });
+  }
+
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'Nenhum arquivo enviado' });
+  }
+
+  const empresaId = req.params.id;
+  const urlFoto = `/uploads/${req.file.filename}`;
+
+  try {
+    const old = await pool.query(
+      'SELECT foto_perfil FROM perfis_empresas WHERE id_empresa = $1',
+      [empresaId]
+    );
+
+    if (old.rows.length > 0 && old.rows[0].foto_perfil) {
+      deleteFile(old.rows[0].foto_perfil.replace('/uploads/', ''));
+    }
+
+    await pool.query(
+      `INSERT INTO perfis_empresas (id_empresa, foto_perfil)
+       VALUES ($1, $2)
+       ON CONFLICT (id_empresa) DO UPDATE SET foto_perfil = EXCLUDED.foto_perfil`,
+      [empresaId, urlFoto]
+    );
+
+    return res.json({ success: true, url: urlFoto, message: 'Foto de perfil da empresa atualizada!' });
+  } catch (error) {
+    console.error('Erro ao salvar foto da empresa:', error);
+    deleteFile(req.file.filename);
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
+});
+
+// GET /api/empresa/:id/foto-perfil
+router.get('/:id/foto-perfil', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT foto_perfil FROM perfis_empresas WHERE id_empresa = $1',
+      [req.params.id]
+    );
+    return res.json({ success: true, url: result.rows[0]?.foto_perfil || null });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
+});
+
+// ─── Galeria de fotos da empresa ─────────────────────────────────────────────
+
+// POST /api/empresa/:id/galeria  — envia até 10 fotos de uma vez
+router.post('/:id/galeria', async (req, res) => {
+  try {
+    await handleUpload(uploadMultiple, req, res);
+  } catch (err) {
+    return res.status(err.status || 400).json({ success: false, message: err.message });
+  }
+
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ success: false, message: 'Nenhum arquivo enviado' });
+  }
+
+  const empresaId = req.params.id;
+
+  try {
+    // Descobre quantas fotos já existem para definir a ordem
+    const countResult = await pool.query(
+      'SELECT COUNT(*) FROM fotos_empresa WHERE id_empresa = $1',
+      [empresaId]
+    );
+    let ordem = parseInt(countResult.rows[0].count, 10);
+
+    const inserted = [];
+    for (const file of req.files) {
+      const urlFoto = `/uploads/${file.filename}`;
+      const result = await pool.query(
+        'INSERT INTO fotos_empresa (id_empresa, url_foto, ordem) VALUES ($1, $2, $3) RETURNING *',
+        [empresaId, urlFoto, ordem++]
+      );
+      inserted.push(result.rows[0]);
+    }
+
+    return res.json({ success: true, fotos: inserted, message: `${inserted.length} foto(s) adicionada(s) à galeria!` });
+  } catch (error) {
+    console.error('Erro ao salvar fotos da galeria:', error);
+    req.files.forEach(f => deleteFile(f.filename));
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
+});
+
+// GET /api/empresa/:id/galeria  — lista todas as fotos
+router.get('/:id/galeria', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM fotos_empresa WHERE id_empresa = $1 ORDER BY ordem ASC',
+      [req.params.id]
+    );
+    return res.json({ success: true, fotos: result.rows });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
+});
+
+// DELETE /api/empresa/:empresaId/galeria/:fotoId  — remove uma foto
+router.delete('/:empresaId/galeria/:fotoId', async (req, res) => {
+  const { empresaId, fotoId } = req.params;
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM fotos_empresa WHERE id_foto = $1 AND id_empresa = $2 RETURNING url_foto',
+      [fotoId, empresaId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Foto não encontrada' });
+    }
+
+    deleteFile(result.rows[0].url_foto.replace('/uploads/', ''));
+    return res.json({ success: true, message: 'Foto removida da galeria' });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
   }
 });
 

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS fotos_empresa     CASCADE;
 DROP TABLE IF EXISTS avaliacoes        CASCADE;
 DROP TABLE IF EXISTS orcamentos        CASCADE;
 DROP TABLE IF EXISTS agendamentos      CASCADE;
@@ -114,6 +115,20 @@ CREATE TABLE orcamentos (
     observacoes     TEXT,
     data_orcamento  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE fotos_empresa (
+    id_foto        SERIAL       PRIMARY KEY,
+    id_empresa     INT          NOT NULL
+                   REFERENCES empresas(id_empresa) ON DELETE CASCADE,
+    url_foto       VARCHAR(255) NOT NULL,
+    descricao      VARCHAR(200),
+    ordem          SMALLINT     NOT NULL DEFAULT 0,
+    data_upload    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_fotos_empresa ON fotos_empresa(id_empresa);
+
+COMMENT ON TABLE fotos_empresa IS 'Galeria de fotos da empresa — múltiplas imagens por oficina';
 
 CREATE TABLE avaliacoes (
     id_avaliacao    SERIAL      PRIMARY KEY,

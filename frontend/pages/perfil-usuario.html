@@ -8,6 +8,42 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/perfil-usuario.css">
+    <style>
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .avatar-wrapper img {
+            display: block;
+        }
+        .avatar-edit-btn {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary, #60a5fa);
+            border: 2px solid #0d1e3f;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .avatar-edit-btn:hover { background: var(--primary-strong, #3b82f6); }
+        #foto-input { display: none; }
+        .upload-status {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            min-height: 18px;
+            color: var(--muted, #cbd5e1);
+        }
+        .upload-status.ok  { color: #4ade80; }
+        .upload-status.err { color: #f87171; }
+    </style>
 </head>
 <body>
     <header>
@@ -15,10 +51,14 @@
     </header>
     <main>
         <div class="info">
-            <img src="" alt="Foto de perfil do usuário" id="profile-photo">
-            <h1>Nome do Usuário</h1>
-            <span>Modelo do carro</span>
-
+            <div class="avatar-wrapper">
+                <img src="" alt="Foto de perfil do usuário" id="profile-photo">
+                <button class="avatar-edit-btn" id="avatar-edit-btn" title="Trocar foto de perfil" aria-label="Trocar foto de perfil">✏️</button>
+                <input type="file" id="foto-input" accept="image/jpeg,image/png,image/webp">
+            </div>
+            <span class="upload-status" id="upload-status"></span>
+            <h1 id="nome-usuario">Nome do Usuário</h1>
+            <span id="modelo-carro">Modelo do carro</span>
         </div>
 
         <div class="registered-cars">
@@ -60,9 +100,85 @@
                 </div>
             </div>
         </div>
-
-        
-        
     </main>
+
+    <script>
+        // ── Helpers ──────────────────────────────────────────────────────────
+        const PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"%3E%3Ccircle cx="60" cy="60" r="60" fill="%23334155"/%3E%3Ccircle cx="60" cy="46" r="22" fill="%2394a3b8"/%3E%3Cellipse cx="60" cy="100" rx="36" ry="24" fill="%2394a3b8"/%3E%3C/svg%3E';
+
+        function getUserId() {
+            return localStorage.getItem('userId');
+        }
+
+        function setStatus(msg, type) {
+            const el = document.getElementById('upload-status');
+            el.textContent = msg;
+            el.className = 'upload-status ' + (type || '');
+        }
+
+        // ── Carregar foto de perfil ao abrir a página ─────────────────────
+        async function carregarFotoPerfil() {
+            const userId = getUserId();
+            if (!userId) return;
+            try {
+                const res = await fetch(`/api/usuario/${userId}/foto-perfil`);
+                const data = await res.json();
+                const img = document.getElementById('profile-photo');
+                img.src = data.url || PLACEHOLDER;
+            } catch {
+                document.getElementById('profile-photo').src = PLACEHOLDER;
+            }
+        }
+
+        // ── Upload ao selecionar arquivo ──────────────────────────────────
+        document.getElementById('avatar-edit-btn').addEventListener('click', () => {
+            document.getElementById('foto-input').click();
+        });
+
+        document.getElementById('foto-input').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const userId = getUserId();
+            if (!userId) {
+                setStatus('Você precisa estar logado para alterar a foto.', 'err');
+                return;
+            }
+
+            // Preview imediato antes de subir
+            const reader = new FileReader();
+            reader.onload = ev => {
+                document.getElementById('profile-photo').src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            setStatus('Enviando...', '');
+
+            const formData = new FormData();
+            formData.append('foto', file);
+
+            try {
+                const res = await fetch(`/api/usuario/${userId}/foto-perfil`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('profile-photo').src = data.url;
+                    setStatus('✓ Foto atualizada com sucesso!', 'ok');
+                } else {
+                    setStatus('Erro: ' + data.message, 'err');
+                }
+            } catch {
+                setStatus('Falha na conexão com o servidor.', 'err');
+            } finally {
+                e.target.value = '';
+            }
+        });
+
+        // ── Init ──────────────────────────────────────────────────────────
+        carregarFotoPerfil();
+    </script>
 </body>
 </html>

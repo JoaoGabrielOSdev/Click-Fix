@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Servir arquivos estáticos do frontend
 app.use(express.static(path.join(__dirname, '../../frontend')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Rotas
 app.use('/api/usuario', usuarioRoutes);

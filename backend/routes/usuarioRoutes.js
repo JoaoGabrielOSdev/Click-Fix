@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const pool = require('../src/database');
 const { validateEmail } = require('../utils/emailValidation');
+const { uploadSingle, handleUpload, deleteFile } = require('../utils/upload');
 const router = express.Router();
 
 // Rota para login do usuário
@@ -130,6 +131,67 @@ router.get('/perfil/:id', (req, res) => {
       tipo: 'usuario'
     }
   });
+});
+
+// ─── Foto de perfil do usuário ───────────────────────────────────────────────
+
+// POST /api/usuario/:id/foto-perfil  — faz upload e salva path no banco
+router.post('/:id/foto-perfil', async (req, res) => {
+  try {
+    await handleUpload(uploadSingle, req, res);
+  } catch (err) {
+    return res.status(err.status || 400).json({ success: false, message: err.message });
+  }
+
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'Nenhum arquivo enviado' });
+  }
+
+  const userId = req.params.id;
+  const urlFoto = `/uploads/${req.file.filename}`;
+
+  try {
+    // Busca foto antiga para deletar do disco
+    const old = await pool.query(
+      'SELECT foto_perfil FROM perfis_comuns WHERE id_usuario = $1',
+      [userId]
+    );
+
+    if (old.rows.length > 0 && old.rows[0].foto_perfil) {
+      const oldFilename = old.rows[0].foto_perfil.replace('/uploads/', '');
+      deleteFile(oldFilename);
+    }
+
+    // Upsert na tabela perfis_comuns
+    await pool.query(
+      `INSERT INTO perfis_comuns (id_usuario, foto_perfil)
+       VALUES ($1, $2)
+       ON CONFLICT (id_usuario) DO UPDATE SET foto_perfil = EXCLUDED.foto_perfil`,
+      [userId, urlFoto]
+    );
+
+    return res.json({ success: true, url: urlFoto, message: 'Foto de perfil atualizada!' });
+  } catch (error) {
+    console.error('Erro ao salvar foto do usuário:', error);
+    deleteFile(req.file.filename);
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
+});
+
+// GET /api/usuario/:id/foto-perfil  — retorna a URL da foto atual
+router.get('/:id/foto-perfil', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT foto_perfil FROM perfis_comuns WHERE id_usuario = $1',
+      [req.params.id]
+    );
+
+    const url = result.rows[0]?.foto_perfil || null;
+    return res.json({ success: true, url });
+  } catch (error) {
+    console.error('Erro ao buscar foto do usuário:', error);
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
 });
 
 module.exports = router;
