@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Servir arquivos estáticos do frontend
 app.use(express.static(path.join(__dirname, '../../frontend')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Rotas
 app.use('/api/usuario', usuarioRoutes);
@@ -75,6 +76,16 @@ app.get('/principal/empresa', (req, res) => {
 // Rota para página de perfil da empresa
 app.get('/perfil/empresa', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/pages/perfil-empresa.html'));
+});
+
+// Rota para página de perfil do usuário
+app.get('/perfil/usuario', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/perfil-usuario.html'));
+});
+
+// Alias para evitar erro de rota relativa vindo de /principal/usuario
+app.get('/principal/perfil-usuario.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/pages/perfil-usuario.html'));
 });
 
 // Middleware de erro

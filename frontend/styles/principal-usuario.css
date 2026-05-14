@@ -108,6 +108,7 @@ header{
     border-radius: 50%;
     background: var(--surface);
     transition: var(--transition);
+    cursor: pointer;
 }
 
 .profile-photo:hover{

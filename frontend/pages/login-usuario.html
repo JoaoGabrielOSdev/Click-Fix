@@ -61,10 +61,11 @@
 
                 const data = await response.json();
 
-                if (data.success) {
+            if (data.success) {
+                    localStorage.setItem('userId', data.user.id);
                     alert('Login realizado com sucesso!');
                     window.location.href = '/principal/usuario';
-                } else {
+            } else {
                     alert(data.message || 'Erro no login');
                 }
             } catch (error) {
