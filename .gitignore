@@ -3,6 +3,13 @@ node_modules/
 package-lock.json
 yarn.lock
 
+
+#fotos
+
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+
 # Variáveis de ambiente
 .env
 .env.local

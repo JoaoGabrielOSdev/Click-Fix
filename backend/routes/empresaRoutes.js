@@ -309,6 +309,49 @@ router.get('/:id/foto-perfil', async (req, res) => {
   }
 });
 
+// ─── Banner da empresa ────────────────────────────────────────────────────────
+
+// POST /api/empresa/:id/banner
+router.post('/:id/banner', async (req, res) => {
+  try {
+    await handleUpload(uploadSingle, req, res);
+  } catch (err) {
+    return res.status(err.status || 400).json({ success: false, message: err.message });
+  }
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'Nenhum arquivo enviado' });
+  }
+  const empresaId = req.params.id;
+  const urlBanner = `/uploads/${req.file.filename}`;
+  try {
+    const old = await pool.query('SELECT banner FROM perfis_empresas WHERE id_empresa = $1', [empresaId]);
+    if (old.rows.length > 0 && old.rows[0].banner) {
+      deleteFile(old.rows[0].banner.replace('/uploads/', ''));
+    }
+    await pool.query(
+      `INSERT INTO perfis_empresas (id_empresa, banner)
+       VALUES ($1, $2)
+       ON CONFLICT (id_empresa) DO UPDATE SET banner = EXCLUDED.banner`,
+      [empresaId, urlBanner]
+    );
+    return res.json({ success: true, url: urlBanner, message: 'Banner atualizado!' });
+  } catch (error) {
+    console.error('Erro ao salvar banner:', error);
+    deleteFile(req.file.filename);
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
+});
+
+// GET /api/empresa/:id/banner
+router.get('/:id/banner', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT banner FROM perfis_empresas WHERE id_empresa = $1', [req.params.id]);
+    return res.json({ success: true, url: result.rows[0]?.banner || null });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+  }
+});
+
 // ─── Galeria de fotos da empresa ─────────────────────────────────────────────
 
 // POST /api/empresa/:id/galeria  — envia até 10 fotos de uma vez
